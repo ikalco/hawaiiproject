@@ -1,0 +1,15 @@
+{
+	"1": {
+		"image": "1.jpg",
+		"dialouges": []
+	},
+	"2": {
+		"image": "1.jpg",
+		"dialouges": [
+			{ "text": "Why did the chicken cross the road?", "person": "John Doe" },
+			{ "text": "Why?", "person": "Bob Brown" },
+			{ "text": "To get to the other side.", "person": "John Doe" },
+			{ "text": "...", "person": "Everyone" }
+		]
+	}
+}
