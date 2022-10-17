@@ -10,9 +10,10 @@ fetch("./frames/frames.json").then((data) => {
     nextFrame();
     nextDialouge();
 
-    for (let i = 0; i < 170; i++) {
-      nextDialouge();
-    }
+//     jumps to end of project
+//     for (let i = 0; i < 170; i++) {
+//       nextDialouge();
+//     }
   });
 })
 
