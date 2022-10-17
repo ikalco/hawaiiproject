@@ -1,5 +1,6 @@
 let mainDiv = document.getElementById("main");
 let currentFrame;
+let finished = true;
 let frame = 0;
 let frames;
 
@@ -16,7 +17,6 @@ function nextFrame() {
 
   currentFrame = frames[frame];
   mainDiv.style.backgroundImage = `url("./frames/${currentFrame.image}")`;
-  console.log(currentFrame);
 }
 
 function nextDialouge() {
@@ -35,6 +35,9 @@ function createDialougeBox(dialouge) {
   headerDiv.id = "dialougeHeader";
   headerDiv.className = "dialougeBoxHeader";
   headerDiv.innerText = dialouge.person;
+  if (dialouge.person == "*") {
+    headerDiv.style.visibility = "hidden"
+  }
 
   topDiv.appendChild(headerDiv);
 
@@ -47,20 +50,57 @@ function createDialougeBox(dialouge) {
 
   mainDiv.appendChild(topDiv);
 
-  type(dialouge.text, "dialougeBody");
+  if (dialouge.person == "*") {
+    type(`*${dialouge.text}*`, "dialougeBody");
+  } else {
+    type(dialouge.text, "dialougeBody");
+    playSansSound();
+  }
 }
 
 document.addEventListener("mouseup", (event) => {
-  nextDialouge();
+  if (finished) nextDialouge();
+  else finished = true;
 })
 
+function yourWelcome() {
+  let youreWelcome = new Audio("frames/youre-welcome.mp3");
+  youreWelcome.play();
+}
+
 async function type(sentence, elementID, delay = 25) {
+  if (sentence == "WHAT CAN I SAY EXCEPT YOU’RE WELCOME!") {
+    const ele = document.getElementById(elementID);
+    ele.innerHTML = sentence;
+    yourWelcome();
+    return;
+  }
+  finished = false;
   const ele = document.getElementById(elementID);
   const letters = sentence.split("");
-  let i = 0;
   for (let i = 0; i < letters.length; i++) {
-    await waitForMs(delay);
-    ele.innerHTML += letters[i];
+    if (!finished) {
+      await waitForMs(delay);
+      ele.innerHTML += letters[i];
+    } else {
+      ele.innerHTML = sentence;
+      break;
+    }
+  }
+  finished = true;
+}
+
+function playSound() {
+  let voice_sans_mp3 = new Audio("frames/voice_sans.mp3");
+  voice_sans_mp3.playbackRate = 0.5;
+  voice_sans_mp3.volume = 0.2;
+  voice_sans_mp3.play();
+}
+
+async function playSansSound() {
+  while (!finished) {
+    await waitForMs(75);
+    playSound();
   }
 }
 
