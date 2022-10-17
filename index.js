@@ -9,6 +9,10 @@ fetch("./frames/frames.json").then((data) => {
     frames = json;
     nextFrame();
     nextDialouge();
+
+    for (let i = 0; i < 170; i++) {
+      nextDialouge();
+    }
   });
 })
 
@@ -65,6 +69,7 @@ document.addEventListener("mouseup", (event) => {
 
 function yourWelcome() {
   let youreWelcome = new Audio("frames/youre-welcome.mp3");
+  youreWelcome.volume = 0.1;
   youreWelcome.play();
 }
 
